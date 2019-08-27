@@ -118,6 +118,8 @@ mange->GetToyInfoFromCacheFile(vToys);
 ```
 ### Debug log
 1.If you use Debug Dll, you will see the console output log information.
+
 2.If you use Release Dll, you need to go to the %appdata%/lovenseSDK directory to view the log files.
+
 ## Version
 Release:1.0.0
