@@ -15,9 +15,11 @@ Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) reposit
 | BLE USB Dongle | ✔ |
 
 ##Dynamic library compilation
+
 | DLL | Supported |
 |----------|------------ |
 | Lovense.dll  | Unicode(MT/MTD) |
+
 ## Usage
 1. Insert the usb Bluetooth adapter into the usb interface of the PC.
 2. Then turn on the toy power and you will see the toy light flashing.
