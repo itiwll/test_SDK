@@ -13,7 +13,7 @@ Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) reposit
 | HID USB Dongle | ✔ |
 | BLE USB Dongle | ✔ |
 
-##Dynamic library compilation
+## Dynamic library compilation
 
 | DLL | Supported |
 |----------|------------ |
@@ -104,7 +104,7 @@ namespace CLovenseToy
 	}
 }
 ```
-###Save the toys
+### Save the toys
 This information is saved in the "%appdata%/lovenseSDk/" directory.
 ```cpp
 CLovenseToyManager *manager = GetLovenseToyManager();
@@ -116,7 +116,7 @@ Or get information from a local file.
 	std::vector<CToyInfo> vToys;
 	mange->GetToyInfoFromCacheFile(vToys);
 ```
-###Debug log
+### Debug log
 1.If you use Debug Dll, you will see the console output log information.
 2.If you use Release Dll, you need to go to the %appdata%/lovenseSDK directory to view the log files.
 ## Version
