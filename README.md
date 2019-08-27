@@ -112,9 +112,9 @@ manager->SaveToyToCacheFile(toyID);
 ```
 Or get information from a local file.
 ```cpp
-	CLovenseToyManager *manager = GetLovenseToyManager();
-	std::vector<CToyInfo> vToys;
-	mange->GetToyInfoFromCacheFile(vToys);
+CLovenseToyManager *manager = GetLovenseToyManager();
+std::vector<CToyInfo> vToys;
+mange->GetToyInfoFromCacheFile(vToys);
 ```
 ### Debug log
 1.If you use Debug Dll, you will see the console output log information.
