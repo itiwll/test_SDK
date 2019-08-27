@@ -2,7 +2,6 @@
 
 Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) repository, built using C and C++. The SDK is a library provided for windows that allows you to have direct access to Lovense toys. You usually choose this option if you need to make your own application program.
 
-----
 ## Features
 
 | Feature | Supported |
@@ -14,7 +13,7 @@ Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) reposit
 | HID USB Dongle | ✔ |
 | BLE USB Dongle | ✔ |
 
-## Dynamic library compilation
+##Dynamic library compilation
 
 | DLL | Supported |
 |----------|------------ |
@@ -99,6 +98,26 @@ namespace CLovenseToy
 		- Supported toys = Nora
 		*/
 		COMMAND_ROTATE = 102,
+		.
+		.
+		.
+	}
+}
 ```
+###Save the toys
+This information is saved in the "%appdata%/lovenseSDk/" directory.
+```cpp
+CLovenseToyManager *manager = GetLovenseToyManager();
+manager->SaveToyToCacheFile(toyID);
+```
+Or get information from a local file.
+```cpp
+	CLovenseToyManager *manager = GetLovenseToyManager();
+	std::vector<CToyInfo> vToys;
+	mange->GetToyInfoFromCacheFile(vToys);
+```
+###Debug log
+1.If you use Debug Dll, you will see the console output log information.
+2.If you use Release Dll, you need to go to the %appdata%/lovenseSDK directory to view the log files.
 ## Version
 Release:1.0.0
