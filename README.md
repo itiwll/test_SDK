@@ -14,7 +14,7 @@ Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) reposit
 | HID USB Dongle | ✔ |
 | BLE USB Dongle | ✔ |
 
-##Dynamic library compilation
+## Dynamic library compilation
 
 | DLL | Supported |
 |----------|------------ |
