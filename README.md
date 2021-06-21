@@ -7,9 +7,6 @@ Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) reposit
 | Feature | Supported |
 |----------|------------ |
 | Windows x86 x64  | ✔ |
-| Standalone | ✔ |
-| Free | ✔ |
-| MIT license | ✔ |
 | HID USB Dongle | ✔ |
 | BLE USB Dongle | ✔ |
 
