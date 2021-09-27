@@ -123,7 +123,8 @@ namespace CLovenseToy
 
 ## View log output
 Here is a simple way, is to use the editbin command.  
-You can see that there are logs output from the console.  
+(You can see that there are logs output from the console.)  
+Note:If there is an "editbin not found" error when compiling, there is a [solution](https://stackoverflow.com/questions/57207503/dumpbin-exe-editbin-exe-package-needed-in-visual-studio-2019).  
 ![avatar](https://github.com/caitain/test_SDK/blob/master/editbin.png)
 ## Version
 Release:2.0.1
