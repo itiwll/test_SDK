@@ -123,6 +123,7 @@ namespace CLovenseToy
 
 ## View log output
 Here is a simple way, is to use the editbin command.  
+You can see that there are logs output from the console.  
 ![avatar](https://github.com/caitain/test_SDK/blob/master/editbin.png)
 ## Version
 Release:2.0.1
