@@ -13,8 +13,8 @@ Welcome to the [Lovense SDK](https://www.lovense.com/user/developer/info) reposi
 ## Dynamic library compilation
 
 | DLL | Supported |
-|----------|------------ |----------------------------------------|
-| Lovense.dll  | Unicode(MT/MTD) | Compile with visual studio 2019 |
+|----------|------------ |
+| Lovense.dll  | build with visual studio 2019(MT/MTD)
 
 ## Usage
 1. Insert the usb Bluetooth adapter into the usb interface of the PC.
