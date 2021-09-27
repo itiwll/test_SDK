@@ -13,13 +13,17 @@ Welcome to the [Lovense SDK](https://www.lovense.com/user/developer/info) reposi
 ## Dynamic library compilation
 
 | DLL | Supported |
-|----------|------------ |
+|----------|------------ |----------------------------------------|
 | Lovense.dll  | Unicode(MT/MTD) | Compile with visual studio 2019 |
 
 ## Usage
 1. Insert the usb Bluetooth adapter into the usb interface of the PC.
 2. Then turn on the toy power and you will see the toy light flashing.
 3. Open the app and start searching for toys.
+
+## How to get developer token
+Go to the [developer](https://www.lovense.com/user/developer/info) website to register a developer account, and then get your developer token.
+Note: You need to fill in the developer token when using the SDK, otherwise the SDK will not work.
 
 ### Getting started
 
