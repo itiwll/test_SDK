@@ -123,6 +123,6 @@ namespace CLovenseToy
 
 ## View log output
 Here is a simple way, is to use the editbin command.  
-![avatar](http://baidu.com/pic/doge.png)
+![avatar](https://github.com/caitain/test_SDK/blob/master/editbin.png)
 ## Version
 Release:2.0.1
