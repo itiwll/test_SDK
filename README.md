@@ -1,6 +1,6 @@
 # Lovense SDK  1.0.0
 
-Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) repository, built using C and C++. The SDK is a library provided for windows that allows you to have direct access to Lovense toys. You usually choose this option if you need to make your own application program.
+Welcome to the [Lovense SDK](https://www.lovense.com/user/developer/info) repository, built using C and C++. The SDK is a library provided for windows that allows you to have direct access to Lovense toys. You usually choose this option if you need to make your own application program.
 
 ## Features
 
@@ -8,13 +8,13 @@ Welcome to the [Lovense SDK](https://zh.lovense.com/user/developer/info) reposit
 |----------|------------ |
 | Windows x86 x64  | ✔ |
 | HID USB Dongle | ✔ |
-| BLE USB Dongle | ✔ |
+| COM USB Dongle | ✔ |
 
-## Dynamic library compilation
+##Dynamic library compilation
 
 | DLL | Supported |
 |----------|------------ |
-| Lovense.dll  | Unicode(MT/MTD) |
+| Lovense.dll  | Unicode(MT/MTD) | Compile with visual studio 2019 |
 
 ## Usage
 1. Insert the usb Bluetooth adapter into the usb interface of the PC.
@@ -36,7 +36,7 @@ class CEventCallBack: public ILovenseSDKNotify
 		virtual  void LovenseSearchingToys( CToyInfo toyInfo);
 
 		/*Call when Something went wrong*/
-		virtual  void LovenseErrorOutPut(int errorCode,const char *errorMsg);
+		virtual  void LovenseSearchingToys(lovense_toy_info_t *info) = 0;
 
 		/*Call when toy search end*/
 		virtual  void LovenseDidSearchEnd();
@@ -101,23 +101,20 @@ namespace CLovenseToy
 	}
 }
 ```
-### Save the toys
-This information is saved in the "%appdata%/lovenseSDk/" directory.
-```cpp
-CLovenseToyManager *manager = GetLovenseToyManager();
-manager->SaveToyToCacheFile(toyID);
-```
-Or get information from a local file.
-```cpp
-CLovenseToyManager *manager = GetLovenseToyManager();
-std::vector<CToyInfo> vToys;
-mange->GetToyInfoFromCacheFile(vToys);
-```
-### Debug log
-1.If you use Debug Dll, you will see the console output log information.
+## Project configuration
 
-2.If you use Release Dll, you need to go to the %appdata%/lovenseSDK directory to view the log files.
-## Run SDK Demo
-![image](https://github.com/licaifuGit/test_SDK/blob/master/Test.png)
+1. The configuration of the project is very simple, if you don't, you can refer to the configuration of SDK Demo.
+
+2. Because the SDK DLL is compiled with Visual Studio 2019, it is best to use the Visual Studio 2019 compiler for your project.
+
+## Other instructions for using Dongle
+1. When Dongle is searching for toys, it will not be able to send other commands for toys.
+
+2. If you need to get the toy's power regularly, the best way is to start a thread loop to get it.
+
+3. Don't send toy instructions frequently, because Dongle cannot process a large number of instructions in a short period of time.
+
+4. If you use it for the first time, you can refer to the usage method in SDK Demo.
+
 ## Version
-Release:1.0.0
+Release:2.0.1
