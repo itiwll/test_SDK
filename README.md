@@ -22,8 +22,8 @@ Welcome to the [Lovense SDK](https://www.lovense.com/user/developer/info) reposi
 3. Open the app and start searching for toys.
 
 ## How to get developer token
-Go to the [developer](https://www.lovense.com/user/developer/info) website to register a developer account, and then get your developer token.
-Note: You need to fill in the developer token when using the SDK, otherwise the SDK will not work.
+Go to the [developer](https://www.lovense.com/user/developer/info) website to register a developer account, and then get your developer token.  
+(Note: You need to fill in the developer token when using the SDK, otherwise the SDK will not work.)
 
 ### Getting started
 
