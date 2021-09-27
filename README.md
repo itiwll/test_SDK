@@ -37,10 +37,11 @@ class CEventCallBack: public ILovenseSDKNotify
 		virtual	void LovenseDidSearchStart();
 
 		/*Call when toy searching toy*/
-		virtual  void LovenseSearchingToys( CToyInfo toyInfo);
+		virtual  void LovenseSearchingToys(lovense_toy_info_t *info) = 0;
 
 		/*Call when Something went wrong*/
-		virtual  void LovenseSearchingToys(lovense_toy_info_t *info) = 0;
+		virtual  void LovenseErrorOutPut(int errorCode,const char *errorMsg) = 0;
+
 
 		/*Call when toy search end*/
 		virtual  void LovenseDidSearchEnd();
