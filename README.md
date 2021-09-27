@@ -121,5 +121,8 @@ namespace CLovenseToy
 
 4. If you use it for the first time, you can refer to the usage method in SDK Demo.
 
+## View log output
+Here is a simple way, is to use the editbin command.  
+![avatar](http://baidu.com/pic/doge.png)
 ## Version
 Release:2.0.1
