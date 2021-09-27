@@ -1,4 +1,4 @@
-# Lovense SDK  1.0.0
+# Lovense SDK  2.0.1
 
 Welcome to the [Lovense SDK](https://www.lovense.com/user/developer/info) repository, built using C and C++. The SDK is a library provided for windows that allows you to have direct access to Lovense toys. You usually choose this option if you need to make your own application program.
 
@@ -10,7 +10,7 @@ Welcome to the [Lovense SDK](https://www.lovense.com/user/developer/info) reposi
 | HID USB Dongle | ✔ |
 | COM USB Dongle | ✔ |
 
-##Dynamic library compilation
+## Dynamic library compilation
 
 | DLL | Supported |
 |----------|------------ |
