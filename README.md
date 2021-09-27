@@ -59,6 +59,7 @@ class CEventCallBack: public ILovenseSDKNotify
 };
 
 ...
+	//TODO:This is a simple process  
 	CEventCallBack *callBack = new CEventCallBack();
 	CLovenseToyManager *manager = GetLovenseToyManager();
 	manager->SetDeveloperToken(...);
