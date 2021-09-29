@@ -4,6 +4,9 @@
 
 #include "stdafx.h"
 #include <iostream>
+#include <lmshare.h>
+#include <thread>
+
 #include "SDKdemo.h"
 #include "SDKdemoDlg.h"
 #include "afxdialogex.h"
@@ -67,6 +70,7 @@ void CSDKdemoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON2, m_btnStop);
 	DDX_Control(pDX, IDC_EDIT1, m_editToken);
 	DDX_Control(pDX, IDC_TEXT_BETTARY, m_txBetarry);
+	DDX_Control(pDX, IDC_RICHEDIT_OUTPUT_APP_LOG, m_richedit_app_output);
 }
 
 BEGIN_MESSAGE_MAP(CSDKdemoDlg, CDialogEx)
@@ -90,6 +94,7 @@ END_MESSAGE_MAP()
 
 BOOL CSDKdemoDlg::OnInitDialog()
 {
+
 	CDialogEx::OnInitDialog();
 
 
@@ -109,12 +114,12 @@ BOOL CSDKdemoDlg::OnInitDialog()
 			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
 		}
 	}
-
+	//AfxInitRichEdit2();
 
 	SetIcon(m_hIcon, TRUE);			
 	SetIcon(m_hIcon, FALSE);		
-
-
+	const wchar_t* t = NULL;
+	//wcscmp(t, _T("Lovense"));
 	m_mapCmd[_T("Vibrate-(Suport All Toy)-Param(0~20)")] = CLovenseToy::CmdType::COMMAND_VIBRATE;
 	m_mapCmd[_T("Rotate-(Suport Nora)-Param(0~20)")] = CLovenseToy::CmdType::COMMAND_ROTATE;
 	m_mapCmd[_T("Clockwise Rotate-(Suport Nora)-Param(0~20)")] = CLovenseToy::CmdType::COMMAND_ROTATE_CLOCKWISE;
@@ -167,6 +172,9 @@ BOOL CSDKdemoDlg::OnInitDialog()
 	m_paramList.AddString(_T("20"));
 	m_cmdList.SetCurSel(0);
 	m_paramList.SetCurSel(4);
+
+	m_editToken.SetWindowTextW(_T(""));
+
 	return TRUE;  // 
 }
 
@@ -179,6 +187,10 @@ void CSDKdemoDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 	else
 	{
+		if (nID == SC_CLOSE)
+		{
+			ReleaseLovenseToyManager();
+		}
 		CDialogEx::OnSysCommand(nID, lParam);
 	}
 }
@@ -219,12 +231,14 @@ HCURSOR CSDKdemoDlg::OnQueryDragIcon()
 
 void CSDKdemoDlg::OnBnClickedsearchButton()
 {
+	this->OutPutAppLog(L"[App] OnClick Start Search!");
 
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(NULL,path,MAX_PATH);
 	m_toyListInfo.ResetContent();
 	m_combToyName.ResetContent();
-	m_mapToyInfo.clear();
+	m_search_toy.clear();
+	//m_mapToyInfo.clear();
 	CLovenseToyManager *manager = GetLovenseToyManager();
 	
 	CString token;
@@ -232,20 +246,31 @@ void CSDKdemoDlg::OnBnClickedsearchButton()
 	token = token.TrimLeft();
 	token = token.TrimRight();
 	std::string strToken = CW2A(token.GetString());
-	manager->SetDeveloperToken(strToken.c_str());
-	if (manager)
+	if (manager->SetDeveloperToken(strToken.c_str()))
 	{
+		
 		manager->RegisterEventCallBack(this);
-		manager->StartSearchToy();
+		int ret = manager->StartSearchToy();
+		if (ret == CLovenseToy::Error::TOYERR_SUCCESS)
+		{
+			m_btnSearch.EnableWindow(FALSE);
+			m_btnStop.EnableWindow(TRUE);
+		}
+		else if (ret == CLovenseToy::Error::TOYERR_DEVICE_IS_SEARCHING)
+		{
+			this->OutPutAppLog(_T("Device is searching..."));
+		}
 	}
-	m_btnSearch.EnableWindow(FALSE);
-	m_btnStop.EnableWindow(TRUE);
+	else
+		this->OutPutAppLog(_T("Invalid token"));
+
+
 }
 
 
 void CSDKdemoDlg::OnBnClickedStopSearchButton()
 {
-
+	this->OutPutAppLog(L"[App] OnClick Stop Search");
 	CLovenseToyManager *manager = GetLovenseToyManager();
 	manager->StopSearchToy();
 }
@@ -254,16 +279,13 @@ void CSDKdemoDlg::AddToyInfo(LPCTSTR toyID, LPCTSTR toyName)
 {
 
 	std::wstring info = toyID;
-	//info += _T("(");
-	//info += toyID;
-	//info += _T(")");
 	m_toyListInfo.AddString(info.c_str());
 	m_toyListInfo.SetCurSel(0);
 }
 
+//send command to toy
 void CSDKdemoDlg::OnBnClickedSendButton()
 {
-
 	CString strID;
 	m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(), strID);
 
@@ -283,7 +305,14 @@ void CSDKdemoDlg::OnBnClickedSendButton()
 	m_cmdList.GetLBText(m_cmdList.GetCurSel(), strCmd);
 	cmdType = (CLovenseToy::CmdType)m_mapCmd[strCmd];
 
-	manager->SendCommand(toyID.c_str(), cmdType, atoi(param.c_str()));
+	CString log;
+	log.Format(_T("[App] OnClick Send Cmd: id=%s type=%d param=%s"), strID, cmdType, strParam);
+	this->OutPutAppLog(log);
+	clock_t startTime = clock();
+	int error = manager->SendCommand(toyID.c_str(), cmdType, atoi(param.c_str()));
+	clock_t endTime = clock();
+	log.Format(_T("[App] Result: ret = %d (time = %dms)"), error, endTime-startTime);
+	this->OutPutAppLog(log);
 }
 
 void CSDKdemoDlg::LovenseErrorOutPut(int errorCode, const char *errorMsg)
@@ -292,6 +321,10 @@ void CSDKdemoDlg::LovenseErrorOutPut(int errorCode, const char *errorMsg)
 	{
 		MessageBox(_T("Invalid token!"), _T("Error"), MB_OK);
 	}
+
+	CString log;
+	log.Format(_T("[App Callback] errorcode=%d"), errorCode, errorMsg?CString(errorMsg):_T(""));
+	this->OutPutAppLog(log);
 }
 
 
@@ -300,6 +333,7 @@ void CSDKdemoDlg::LovenseDidSearchStart()
 	std::cout << "LovenseDidSearchStart"<< std::endl;
 	m_btnSearch.EnableWindow(FALSE);
 	m_btnStop.EnableWindow(TRUE);
+	this->OutPutAppLog(_T("[App Callback] SDK Did Search Start"));
 }
 
 void CSDKdemoDlg::LovenseDidSearchEnd()
@@ -307,27 +341,48 @@ void CSDKdemoDlg::LovenseDidSearchEnd()
 	std::cout << "LovenseDidSearchEnd" << std::endl;
 	m_btnSearch.EnableWindow(TRUE);
 	m_btnStop.EnableWindow(FALSE);
+	this->OutPutAppLog(_T("[App Callback] SDK Did Search End"));
 }
 
-void CSDKdemoDlg::LovenseSearchingToys(CToyInfo info)
+void CSDKdemoDlg::LovenseSearchingToys(lovense_toy_info_t* info)
 {
-	if (1)
-	{
-		std::cout << info.GetToyName() << std::endl;
-		CString toyID;
-		toyID = info.GetToyID().c_str();
-		m_toyListInfo.AddString(toyID);
-		m_toyListInfo.SetCurSel(0);
-		m_combToyName.AddString(CString(info.GetToyFullName().c_str()));
-		m_combToyName.SetCurSel(0);
+	if (info) {
 
-		if (m_toyListInfo.GetCurSel() == 0)
+		CString log;
+		log.Format(_T("[App Callback] found toy:name=%s id=%s"), CString(info->toy_name), CString(info->toy_id));
+		this->OutPutAppLog(log);
+
+		if (info->toy_id)
 		{
-			CString bettary;
-			bettary.Format(_T("%d"), info.GetBettary());
-			m_txBetarry.SetWindowText(bettary);
+			TMap_Iterator iter = m_search_toy.find(CString(info->toy_id));
+			if (iter == m_search_toy.end())
+			{
+				std::shared_ptr<MyToyInfo> pMyToy = std::make_shared<MyToyInfo>();
+				pMyToy->toy_id = info->toy_id;
+				if (info->toy_name)
+				{
+					pMyToy->toy_name = info->toy_name;
+				}
+				pMyToy->toy_type = info->toy_type;
+				pMyToy->toy_battery = info->toy_battery;
+				pMyToy->toy_connected = info->toy_connected;
+
+				m_search_toy.insert(std::make_pair(pMyToy->toy_id, pMyToy));
+				m_toyListInfo.AddString(pMyToy->toy_id);
+				m_toyListInfo.SetCurSel(0);
+
+				m_combToyName.AddString(pMyToy->toy_name);
+				m_combToyName.SetCurSel(0);
+			}
+			else
+			{
+				if (info->toy_name)
+					iter->second->toy_name = info->toy_name;
+				iter->second->toy_battery = info->toy_battery;
+				iter->second->toy_connected = info->toy_connected;
+				iter->second->toy_type = info->toy_type;
+			}
 		}
-		m_mapToyInfo.insert(std::make_pair(toyID,info));
 	}
 }
 
@@ -335,18 +390,20 @@ void CSDKdemoDlg::LovenseSendCmdResult(const char * szToyID, CLovenseToy::CmdTyp
 {
 	if (szToyID)
 	{
-		
+		CString log;
+		log.Format(_T("[App Callback] Send Cmd Result:toyId=%s cmd=%d result=%s erorcode=%d" ), CString(szToyID), cmd, result?CString(result):_T(""),errorCode);
+		this->OutPutAppLog(log);
 	}
 }
 
 void CSDKdemoDlg::LovenseDidSendCmdStart()
 {
-
+	this->OutPutAppLog(_T("[App Callback] SDK Did Send Cmd Start!"));
 }
 
 void CSDKdemoDlg::LovenseDidSendCmdEnd()
 {
-
+	this->OutPutAppLog(_T("[App Callback] SDK Did Send Cmd End!"));
 }
 
 
@@ -356,18 +413,26 @@ void CSDKdemoDlg::LovenseToyConnectedStatus(const char *szToyID, bool isConnecte
 		std::cout << "Toy:" << szToyID << " is connected!"<<std::endl;
 	else
 		std::cout << "Toy:" << szToyID << " is disConnected!" << std::endl;
+	CString log;
+	log.Format(_T("[App Callback] Toy Connected Update:toyId=%s connected=%d"),CString("szToyID"),isConnected);
+	this->OutPutAppLog(log);
 }
 
 void CSDKdemoDlg::OnBnClickedLightOpenButton()
 {
-
 	CString strID;
 	m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(), strID);
+	this->OutPutAppLog(_T("[App] OnClick Did Send Light On Cmd"));
 
 	CLovenseToyManager *manager = GetLovenseToyManager();
 	std::string toyID;
 	toyID = CW2A(strID.GetString());
-	manager->SendCommand(toyID.c_str(), CLovenseToy::CmdType::COMMAND_LIGHT_ON, 0);
+	clock_t startTime = clock();
+	int error = manager->SendCommand(toyID.c_str(), CLovenseToy::CmdType::COMMAND_LIGHT_ON, 0);
+	clock_t endTime = clock();
+	CString log;
+	log.Format(_T("[App] Result: ret = %d (time = %dms)"), error, endTime - startTime);
+	this->OutPutAppLog(log);
 }
 
 
@@ -376,65 +441,118 @@ void CSDKdemoDlg::OnBnClickedLightCloseButton()
 
 	CString strID;
 	m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(), strID);
+	this->OutPutAppLog(_T("[App] OnClick Did Send Light Off Cmd"));
 
 	CLovenseToyManager *manager = GetLovenseToyManager();
 	std::string toyID;
 	toyID = CW2A(strID.GetString());
-	manager->SendCommand(toyID.c_str(), CLovenseToy::CmdType::COMMAND_LIGHT_OFF, 0);
+	clock_t startTime = clock();
+	int error = manager->SendCommand(toyID.c_str(), CLovenseToy::CmdType::COMMAND_LIGHT_OFF, 0);
+	clock_t endTime = clock();
+	CString log;
+	log.Format(_T("[App] Result: ret = %d (time = %dms)"), error, endTime - startTime);
+	this->OutPutAppLog(log);
 }
-
 
 void CSDKdemoDlg::OnBnClickedLightFlashButton()
 {
-
 	CString strID;
 	m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(), strID);
+	this->OutPutAppLog(_T("[App] OnClick Did Send Get Battery Cmd"));
+
 	std::string toyID;
 	toyID = CW2A(strID.GetString());
 
 	CLovenseToyManager *manager = GetLovenseToyManager();
-	manager->SendCommand(toyID.c_str(), CLovenseToy::CmdType::COMMAND_FLASH, 0);
+	int battery = 0;
+	int ret = manager->GetToyBattery(toyID.c_str(), &battery);
+	if (ret == CLovenseToy::Error::TOYERR_SUCCESS)
+	{
+		CString log;
+		log.Format(_T("[App Callback] Toy Battery:toyId=%s Battery=%d"), CString("szToyID"), battery);
+		this->OutPutAppLog(log);
+	}
+	static bool run_one = false;
+	if (!run_one)
+	{
+		run_one = true;
+		
+		std::thread thread1 = std::thread([&]() {
+			CString strID;
+			m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(), strID);
+			this->OutPutAppLog(_T("[App] OnClick Did Send Get Battery Cmd"));
+			std::string toyID;
+			toyID = CW2A(strID.GetString());
+
+			while (1)
+			{
+				Sleep(5000);
+				int battery = 0;
+				CLovenseToyManager* manager = GetLovenseToyManager();
+				CString log;
+				log.Format(_T("[App] Send Get Battery Cmd: id = %s"), strID);
+				this->OutPutAppLog(log);
+				int ret = manager->GetToyBattery(toyID.c_str(), &battery);
+				log.Format(_T("[App] ret:%d id:%s battery:%d"), ret, strID, battery);
+				this->OutPutAppLog(log);
+			}
+		});
+		thread1.detach();
+	}
 }
 
 
 void CSDKdemoDlg::OnBnClickedButtonConnected()
 {
-
 	CString strID;
 	m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(), strID);
+	CString log;
+	log.Format(_T("[App] OnClick Connect: toy=%s"), strID);
+	this->OutPutAppLog(log);
+
 	std::string toyID;
 	toyID = CW2A(strID.GetString());
 	CLovenseToyManager *manager = GetLovenseToyManager();
-	manager->ConnectToToy(toyID.c_str());
+	clock_t startTime = clock();
+	int error = manager->ConnectToToy(toyID.c_str());
+	clock_t endTime = clock();
+	log.Format(_T("[App] Result: ret = %d (time = %dms)"), error, endTime - startTime);
+	this->OutPutAppLog(log);
 }
 
 
 void CSDKdemoDlg::OnBnClickedButtonDisconnected()
 {
-
 	CString strID;
 	m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(), strID);
 	std::string toyID;
 	toyID = CW2A(strID.GetString());
+	CString log;
+	log.Format(_T("[App] OnClick DisConnect: toy=%s"), strID);
+	this->OutPutAppLog(log);
+
+	clock_t startTime = clock();
 	CLovenseToyManager *manager = GetLovenseToyManager();
-	manager->DisConnectedToy(toyID.c_str());
+	int error = manager->DisConnectedToy(toyID.c_str());
+	clock_t endTime = clock();
+	log.Format(_T("[App] Result: ret = %d (time = %dms)"), error, endTime - startTime);
+	this->OutPutAppLog(log);
 }
 
 
 void CSDKdemoDlg::OnCbnSelchangeToyID()
 {
-
 	m_combToyName.SetCurSel(m_toyListInfo.GetCurSel());
 	CString strID;
 	m_toyListInfo.GetLBText(m_toyListInfo.GetCurSel(),strID);
-	if (m_mapToyInfo.find(strID) != m_mapToyInfo.end())
+
+	if (m_search_toy.find(strID) != m_search_toy.end())
 	{
-		CToyInfo info = m_mapToyInfo[strID];
+		auto info = m_search_toy[strID];
 		CString battery;
-		battery.Format(_T("%d"), info.GetBettary());
+		battery.Format(_T("%d"), info->toy_battery);
 		m_txBetarry.SetWindowTextW(battery);
 	}
-
 }
 
 
@@ -442,3 +560,11 @@ void CSDKdemoDlg::OnEnChangeEdit1()
 {
 
 }
+
+void CSDKdemoDlg::OutPutAppLog(CString log)
+{
+	log += _T("\r\n");
+	this->m_richedit_app_output.ReplaceSel(log);
+	this->m_richedit_app_output.PostMessage(WM_VSCROLL, SB_BOTTOM, 0);
+}
+
