@@ -414,7 +414,7 @@ void CSDKdemoDlg::LovenseToyConnectedStatus(const char *szToyID, bool isConnecte
 	else
 		std::cout << "Toy:" << szToyID << " is disConnected!" << std::endl;
 	CString log;
-	log.Format(_T("[App Callback] Toy Connected Update:toyId=%s connected=%d"),CString("szToyID"),isConnected);
+	log.Format(_T("[App Callback] Toy Connected Update:toyId=%s connected=%d"),CString(szToyID),isConnected);
 	this->OutPutAppLog(log);
 }
 
