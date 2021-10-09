@@ -36,7 +36,6 @@ CSDKdemoApp theApp;
 
 BOOL CSDKdemoApp::InitInstance()
 {
-// TODO: 调用 AfxInitRichEdit2() 以初始化 richedit2 库。\n"
 	INITCOMMONCONTROLSEX InitCtrls;
 	InitCtrls.dwSize = sizeof(InitCtrls);
 
