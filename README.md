@@ -13,32 +13,10 @@ Go to the [Dashboard](https://zh.lovense.com/user/developer/info), get your deve
 ## [Download SDK](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
 
 # Step 3: Configure in Visual Studio 2019
-## a.Configuration header file   
+## Configuration header file   
 ![avatar](https://github.com/caitain/test_SDK/blob/master/configurehead.png)
-## b.Configure lib file   
+## Configure lib file   
 ![avatar](https://github.com/caitain/test_SDK/blob/master/configurelib.png)
-## Features
-
-| Feature | Supported |
-|----------|------------ |
-| Windows x86 x64  | ✔ |
-| HID USB Dongle | ✔ |
-| COM USB Dongle | ✔ |
-
-## Dynamic library compilation
-
-| DLL | Supported |
-|----------|------------ |
-| Lovense.dll  | build with visual studio 2019(MT/MTD)
-
-## Usage
-1. Insert the usb Bluetooth adapter into the usb interface of the PC.
-2. Then turn on the toy power and you will see the toy light flashing.
-3. Open the app and start searching for toys.
-
-## How to get developer token
-Go to the [developer](https://www.lovense.com/user/developer/info) website to register a developer account, and then get your developer token.  
-(Note: You need to fill in the developer token when using the SDK, otherwise the SDK will not work.)
 
 ### Getting started
 
@@ -122,19 +100,16 @@ namespace CLovenseToy
 	}
 }
 ```
-## Project configuration
 
-1. The configuration of the project is very simple, if you don't, you can refer to the configuration of SDK Demo.
-
-2. Because the SDK DLL is compiled with Visual Studio 2019, it is best to use the Visual Studio 2019 compiler for your project.
+## Usage
+1. Insert the usb Bluetooth adapter into the usb interface of the PC.
+2. Then turn on the toy power and you will see the toy light flashing.
+3. Open the app and start searching for toys.
 
 ## Other instructions for using Dongle
 1. When Dongle is searching for toys, it will not be able to send other commands for toys.
-
 2. If you need to get the toy's power regularly, the best way is to start a thread loop to get it.
-
 3. Don't send toy instructions frequently, because Dongle cannot process a large number of instructions in a short period of time.
-
 4. If you use it for the first time, you can refer to the usage method in SDK Demo.
 
 ## View log output
