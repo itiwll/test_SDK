@@ -6,7 +6,8 @@ The Windows SDK is a library provided for windows that allows you to have direct
 
 
 # Step 1: Get the Developer Token
-Go to the [Dashboard](https://zh.lovense.com/user/developer/info), get your developer token.
+Go to the [Dashboard](https://zh.lovense.com/user/developer/info), get your developer token.  
+Note: You need to fill in the developer token when using the SDK, otherwise the SDK will not work.
 
 # Step 2: Download demo examples and SDK
 ## [Download Demo](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
