@@ -10,6 +10,11 @@ Go to the [Dashboard](https://zh.lovense.com/user/developer/info), get your deve
 # Step 2: Download and extract the Lovense.
 ## [Download SDK](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
 
+# Step 3: Include SDK and Configure
+## 1. Configuration header file
+![avatar](https://github.com/caitain/test_SDK/blob/master/editbin.png)![avatar](https://github.com/caitain/test_SDK/blob/master/editbin.png)
+## 2. Configure lib file
+![avatar](https://github.com/caitain/test_SDK/blob/master/editbin.png)![avatar](https://github.com/caitain/test_SDK/blob/master/editbin.png)
 ## Features
 
 | Feature | Supported |
