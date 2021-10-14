@@ -3,12 +3,13 @@
 The Windows SDK is a library provided for windows that allows you to have direct access to Lovense toys. You usually choose this option if you need to make your own application program.  
 ![avatar](https://github.com/caitain/test_SDK/blob/master/LovenseDongle.jpg#pic_center)
 
-## [Download Demo](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
+
 
 # Step 1: Get the Developer Token
 Go to the [Dashboard](https://zh.lovense.com/user/developer/info), get your developer token.
 
 # Step 2: Download the compiled binary file
+## [Download Demo](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
 ## [Download SDK](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
 
 # Step 3: Configure in Visual Studio 2019
