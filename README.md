@@ -106,7 +106,7 @@ namespace CLovenseToy
 ## Usage
 1. Insert the usb Bluetooth adapter into the usb interface of the PC.
 2. Then turn on the toy power and you will see the toy light flashing.
-3. Open the app and start searching for toys.
+3. Open the app and start searching for toys.  
 ![avatar](https://github.com/caitain/test_SDK/blob/master/dongle-and-pc.png)
 
 ## Other instructions for using Dongle
