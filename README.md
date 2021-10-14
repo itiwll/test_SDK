@@ -10,6 +10,7 @@ Go to the [Dashboard](https://zh.lovense.com/user/developer/info), get your deve
 Note: You need to fill in the developer token when using the SDK, otherwise the SDK will not work.
 
 # Step 2: Download demo examples and SDK
+From the demo, you can find a quick way to get started.
 ## [Download Demo](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
 ## [Download SDK](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
 
