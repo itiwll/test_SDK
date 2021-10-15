@@ -21,7 +21,7 @@ For example, the method below is to configure SDK in Visual Studio 2019
 2. Set the path of SDK lib file   
 ![avatar](https://github.com/caitain/test_SDK/blob/master/configurelib.png)
 
-# Step 4: Getting started
+# Step 4: Connect Lovense Toys and Send Commands
 
 ```c++
 #include <Lovense.h>
@@ -64,7 +64,7 @@ class CEventCallBack: public ILovenseSDKNotify
 	manager->StartSearchToy();//Search for the toys via USB Dongle
 ```
 
-# Step 5: How to send a command?
+Send a command
 
 ```c++
 	CLovenseToyManager *manager = GetLovenseToyManager();
@@ -73,7 +73,7 @@ class CEventCallBack: public ILovenseSDKNotify
 
 ```
 
-### What commands are supported?
+What commands are supported?
 You can see the following definition in LovenseDef.h.
 ```c++
 namespace CLovenseToy
