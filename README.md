@@ -1,6 +1,6 @@
 # Lovense SDK  2.0.1
 
-The Windows SDK is a library provided for windows that allows you to have direct access to Lovense toys. You usually choose this option if you need to make your own application program.  
+The Windows SDK is a library for Windows that allows you to directly access Lovense toys through the Lovense USB Bluetooth Adater. If you need to make your own Windows application, you usually choose this option. 
 ![avatar](https://github.com/caitain/test_SDK/blob/master/LovenseDongle.jpg#pic_center)
 
 
