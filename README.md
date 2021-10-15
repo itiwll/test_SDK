@@ -64,7 +64,7 @@ class CEventCallBack: public ILovenseSDKNotify
 	manager->StartSearchToy();//Search for the toys via USB Dongle
 ```
 
-Send a command
+Send a command  
 
 ```c++
 	CLovenseToyManager *manager = GetLovenseToyManager();
@@ -73,7 +73,7 @@ Send a command
 
 ```
 
-What commands are supported?
+What commands are supported?  
 You can see the following definition in LovenseDef.h.
 ```c++
 namespace CLovenseToy
