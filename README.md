@@ -15,12 +15,12 @@ From the demo, you can find a quick way to get started.
 ## [Download SDK](https://test-front.lovense.com/lovense-developer/lovense-win-sdk-2.0.1-rc1.zip)
 
 # Step 3: Configure in Visual Studio 2019
-## Configuration header file   
+1. Configuration header file   
 ![avatar](https://github.com/caitain/test_SDK/blob/master/configurehead.png)
-## Configure lib file   
+2. Configure lib file   
 ![avatar](https://github.com/caitain/test_SDK/blob/master/configurelib.png)
 
-### Getting started
+# Step 4: Getting started
 
 ```c++
 #include <Lovense.h>
@@ -63,7 +63,7 @@ class CEventCallBack: public ILovenseSDKNotify
 	manager->StartSearchToy();//Search for the toys via USB Dongle
 ```
 
-### How to send a command?
+# Step 5: How to send a command?
 
 ```c++
 	CLovenseToyManager *manager = GetLovenseToyManager();
